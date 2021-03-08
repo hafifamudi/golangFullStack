@@ -3,7 +3,6 @@ package main
 import (
 	"bwastartup/handler"
 	"bwastartup/user"
-	"fmt"
 
 	"log"
 
@@ -24,21 +23,13 @@ func main() {
 	userService := user.NewService(userRepository)
 
 	userHandler := handler.NewUserHandler(userService)
-	userByEmail, err := userRepository.FindByEmai("hafifcyber@gmail.com")
-	if err != nil {
-		fmt.Println(err.Error())
-	}
 
-	if userByEmail.ID == 0 {
-		fmt.Println("not found")
-	} else {
-		fmt.Println(userByEmail.Name)
-	}
 	router := gin.Default()
 
 	api := router.Group("/api/v1")
 
 	api.POST("/users", userHandler.RegisterUser)
+	api.POST("/sessions", userHandler.Login)
 
 	router.Run(":5000")
 }
