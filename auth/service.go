@@ -2,8 +2,11 @@ package auth
 
 import (
 	"errors"
+	"log"
+	"os"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/joho/godotenv"
 )
 
 type Service interface {
@@ -18,9 +21,15 @@ func NewService() *jwtService {
 	return &jwtService{}
 }
 
-var SECRET_KEY = []byte("Golang-STARTUP-s3cretK3y")
-
 func (s *jwtService) GenerateToken(userID int) (string, error) {
+	//load the .env file
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	var SECRET_KEY = []byte(os.Getenv("SECRET_KEY"))
+
 	//set payload
 	claim := jwt.MapClaims{}
 	claim["user_id"] = userID
@@ -37,6 +46,14 @@ func (s *jwtService) GenerateToken(userID int) (string, error) {
 }
 
 func (s *jwtService) ValidateToken(encodedToken string) (*jwt.Token, error) {
+	//load the .env file
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	var SECRET_KEY = []byte(os.Getenv("SECRET_KEY"))
+
 	token, err := jwt.Parse(encodedToken, func(token *jwt.Token) (interface{}, error) {
 		_, ok := token.Method.(*jwt.SigningMethodHMAC)
 
