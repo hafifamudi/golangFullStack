@@ -4,6 +4,7 @@ import (
 	"bwastartup/auth"
 	"bwastartup/db"
 	"bwastartup/handler"
+	"bwastartup/middleware"
 	"bwastartup/user"
 
 	"github.com/gin-gonic/gin"
@@ -22,5 +23,5 @@ func Routes(route *gin.Engine) {
 	user.POST("/users", userHandler.RegisterUser)
 	user.POST("/sessions", userHandler.Login)
 	user.POST("/email_checkers", userHandler.CheckEmailAvailability)
-	user.POST("/avatars", userHandler.UploadAvatar)
+	user.POST("/avatars", middleware.AuthMiddleware(useAuth, userService), userHandler.UploadAvatar)
 }
