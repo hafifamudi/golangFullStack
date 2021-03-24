@@ -11,6 +11,8 @@ func main() {
 	//setup the router
 	router := gin.Default()
 
+	//add image routing
+	router.Static("/images", "./images")
 	//register user routes
 	routes.UserRoutes(router)
 	//register campaign routes
