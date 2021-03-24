@@ -19,5 +19,5 @@ func CampaignRoutes(route *gin.Engine) {
 	//setup the router
 	campaign := route.Group("/api/v1")
 	campaign.GET("/campaigns", campaignHandler.GetCampaigns)
-
+	campaign.GET("/campaigns/:id", campaignHandler.GetCampaign)
 }
