@@ -3,7 +3,7 @@ package routes
 import (
 	"bwastartup/campaign"
 	"bwastartup/db"
-	"fmt"
+	"bwastartup/handler"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,12 +14,10 @@ func CampaignRoutes(route *gin.Engine) {
 	campaignService := campaign.NewService(campaignRepository)
 	// useAuth := auth.NewService()
 
-	// campaignHandler := handler.NewUserHandler(userService, useAuth)
+	campaignHandler := handler.NewCampaignHandler(campaignService)
 
-	campaigns, _ := campaignService.FindCampaigns(8)
-	fmt.Println(len(campaigns))
 	//setup the router
-	// campaign := route.Group("/api/v1")
-	// campaign.POST("/users")
+	campaign := route.Group("/api/v1")
+	campaign.GET("/campaigns", campaignHandler.GetCampaigns)
 
 }
