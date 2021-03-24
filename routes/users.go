@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Routes(route *gin.Engine) {
+func UserRoutes(route *gin.Engine) {
 	//setup the handler,service and repo
 	userRepository := user.NewRepository(db.DbConfig())
 	userService := user.NewService(userRepository)

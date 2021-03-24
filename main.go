@@ -12,7 +12,9 @@ func main() {
 	router := gin.Default()
 
 	//register user routes
-	routes.Routes(router)
+	routes.UserRoutes(router)
+	//register campaign routes
+	routes.CampaignRoutes(router)
 
 	//run the app
 	router.Run(":5000")
