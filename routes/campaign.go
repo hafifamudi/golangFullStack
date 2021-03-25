@@ -27,4 +27,5 @@ func CampaignRoutes(route *gin.Engine) {
 	campaign.GET("/campaigns", campaignHandler.GetCampaigns)
 	campaign.GET("/campaigns/:id", campaignHandler.GetCampaign)
 	campaign.POST("/campaigns", middleware.AuthMiddleware(useAuth, userService), campaignHandler.CreateCampaign)
+	campaign.PUT("/campaigns/:id", middleware.AuthMiddleware(useAuth, userService), campaignHandler.UpdateCampaign)
 }
