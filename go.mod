@@ -11,6 +11,7 @@ require (
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/google/uuid v1.2.0 // indirect
+	github.com/gosimple/slug v1.9.0 // indirect
 	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
