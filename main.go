@@ -17,6 +17,8 @@ func main() {
 	routes.UserRoutes(router)
 	//register campaign routes
 	routes.CampaignRoutes(router)
+	//registrer transaction routes
+	routes.TransactionRoutes(router)
 
 	//run the app
 	router.Run(":5000")

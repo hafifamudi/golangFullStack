@@ -12,6 +12,7 @@ type Service interface {
 	GetCampaignByID(input GetCampaignDetailInput) (Campaign, error)
 	CreateCampaign(input CraeteCampaignInput) (Campaign, error)
 	UpdateCampaign(campaignID GetCampaignDetailInput, inputData CraeteCampaignInput) (Campaign, error)
+	SaveCampaignImage(input CreateCampaignImageInput, fileLocation string) (CampaignImage, error)
 }
 
 type service struct {
@@ -92,4 +93,38 @@ func (s *service) UpdateCampaign(campaignID GetCampaignDetailInput, inputData Cr
 	}
 
 	return updateCampaign, nil
+}
+
+func (s *service) SaveCampaignImage(input CreateCampaignImageInput, fileLocation string) (CampaignImage, error) {
+	campaign, err := s.repository.FindByID(input.CampaignID)
+	if err != nil {
+		return CampaignImage{}, err
+	}
+
+	if campaign.UserID != input.User.ID {
+		return CampaignImage{}, errors.New("you are not the owner of the campaign sucker")
+	}
+
+	is_primary := 0
+
+	if input.IsPrimary {
+		is_primary = 1
+
+		_, err := s.repository.MarkAllImagesAsNonPrimary(input.CampaignID)
+		if err != nil {
+			return CampaignImage{}, err
+		}
+	}
+
+	campaignImage := CampaignImage{}
+	campaignImage.CampaignID = input.CampaignID
+	campaignImage.IsPrimary = is_primary
+	campaignImage.FileName = fileLocation
+
+	newCampaignImage, err := s.repository.CreateImage(campaignImage)
+	if err != nil {
+		return newCampaignImage, err
+	}
+
+	return newCampaignImage, nil
 }

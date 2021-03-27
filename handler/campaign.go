@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type campaignHandler struct {
@@ -118,5 +119,61 @@ func (h *campaignHandler) UpdateCampaign(c *gin.Context) {
 	}
 
 	response := helper.ApiResponse("succesfully update campaign", http.StatusOK, "success", campaign.FormatCampaign(updateCampaign))
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *campaignHandler) UploadImage(c *gin.Context) {
+	var input campaign.CreateCampaignImageInput
+
+	err := c.ShouldBind(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.ApiResponse("failed to upload campaign image", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	file, err := c.FormFile("file")
+	if err != nil {
+		data := gin.H{"is_uploaded": false}
+
+		response := helper.ApiResponse("Failed to upload campaign image!", http.StatusUnprocessableEntity, "error", data)
+
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	extension := file.Filename
+	path := "images/" + uuid.New().String() + extension
+
+	err = c.SaveUploadedFile(file, path)
+	if err != nil {
+		data := gin.H{"is_uplaoded": false}
+
+		response := helper.ApiResponse("Failed to upload Avatar image!", http.StatusUnprocessableEntity, "error", data)
+
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	currentUser := c.MustGet("currentUser").(user.User)
+	input.User = currentUser
+
+	_, err = h.service.SaveCampaignImage(input, path)
+	if err != nil {
+		data := gin.H{"is_uplaoded": false}
+
+		response := helper.ApiResponse("Failed to upload campaign image!", http.StatusUnprocessableEntity, "error", data)
+
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	data := gin.H{"is_uplaoded": true}
+
+	response := helper.ApiResponse("campaign image successfully uploaded", http.StatusOK, "error", data)
+
 	c.JSON(http.StatusOK, response)
 }
