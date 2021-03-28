@@ -34,5 +34,5 @@ func TransactionRoutes(route *gin.Engine) {
 	transaction.GET("/campaigns/:id/transaction", middleware.AuthMiddleware(useAuth, userService), transactionHandler.GetCampaignTransaction)
 	transaction.GET("/transactions", middleware.AuthMiddleware(useAuth, userService), transactionHandler.GetUserTransactions)
 	transaction.POST("/transactions", middleware.AuthMiddleware(useAuth, userService), transactionHandler.CreateTransaction)
-
+	transaction.POST("/transactions/notifications", middleware.AuthMiddleware(useAuth, userService), transactionHandler.GetNotification)
 }

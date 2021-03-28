@@ -24,4 +24,6 @@ func UserRoutes(route *gin.Engine) {
 	user.POST("/sessions", userHandler.Login)
 	user.POST("/email_checkers", userHandler.CheckEmailAvailability)
 	user.POST("/avatars", middleware.AuthMiddleware(useAuth, userService), userHandler.UploadAvatar)
+	user.GET("/users/fetch", middleware.AuthMiddleware(useAuth, userService), userHandler.FetchUser)
+
 }

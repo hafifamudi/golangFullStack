@@ -3,6 +3,7 @@ package main
 import (
 	"bwastartup/routes"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,6 +11,9 @@ func main() {
 
 	//setup the router
 	router := gin.Default()
+
+	//using cors with gin middleware for handle the outgoing request
+	router.Use(cors.Default())
 
 	//add image routing
 	router.Static("/images", "./images")
