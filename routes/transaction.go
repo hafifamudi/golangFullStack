@@ -6,6 +6,7 @@ import (
 	"bwastartup/db"
 	"bwastartup/handler"
 	"bwastartup/middleware"
+	"bwastartup/payment"
 	"bwastartup/transaction"
 	"bwastartup/user"
 
@@ -18,7 +19,9 @@ func TransactionRoutes(route *gin.Engine) {
 
 	//setup the handler,service and repo
 	transactionRepository := transaction.NewRepository(db.DbConfig())
-	transactionService := transaction.NewService(transactionRepository, campaignRepository)
+	//setup payment service
+	paymentService := payment.NewService()
+	transactionService := transaction.NewService(transactionRepository, campaignRepository, paymentService)
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 
 	// userService and userRepo for middleware
@@ -30,4 +33,6 @@ func TransactionRoutes(route *gin.Engine) {
 	transaction := route.Group("/api/v1")
 	transaction.GET("/campaigns/:id/transaction", middleware.AuthMiddleware(useAuth, userService), transactionHandler.GetCampaignTransaction)
 	transaction.GET("/transactions", middleware.AuthMiddleware(useAuth, userService), transactionHandler.GetUserTransactions)
+	transaction.POST("/transactions", middleware.AuthMiddleware(useAuth, userService), transactionHandler.CreateTransaction)
+
 }
