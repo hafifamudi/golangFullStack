@@ -2,8 +2,11 @@ package main
 
 import (
 	"bwastartup/routes"
+	routesWeb "bwastartup/web/routes"
+	"path/filepath"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,19 +22,38 @@ func main() {
 	router.Static("/images", "./images")
 	//register user routes
 	routes.UserRoutes(router)
-	//register campaign routes
+	//load templates
+	router.HTMLRender = loadTemplates("./web/templates")
+	//register campaign route
 	routes.CampaignRoutes(router)
 	//registrer transaction routes
 	routes.TransactionRoutes(router)
-
+	//register the user web route
+	routesWeb.UserWebRoutes(router)
 	//run the app
 	router.Run(":5000")
 }
 
-/**
-input dari user
-handler, mapping input dari user -> struct input
-service : melakukan mapping dari struct input struct User
-repository -> interaksi dengan DB
-db
-**/
+//load template function
+func loadTemplates(templatesDir string) multitemplate.Renderer {
+	r := multitemplate.NewRenderer()
+
+	layouts, err := filepath.Glob(templatesDir + "/layouts/*.html")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	includes, err := filepath.Glob(templatesDir + "/**/*.html")
+	if err != nil {
+		panic(err.Error())
+	}
+
+	// Generate our templates map from our layouts/ and includes/ directories
+	for _, include := range includes {
+		layoutCopy := make([]string, len(layouts))
+		copy(layoutCopy, layouts)
+		files := append(layoutCopy, include)
+		r.AddFromFiles(filepath.Base(include), files...)
+	}
+	return r
+}

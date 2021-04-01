@@ -37,8 +37,8 @@ func (h *transactionHandler) GetCampaignTransaction(c *gin.Context) {
 		return
 	}
 
-	response := helper.ApiResponse("campaign detail transaction", http.StatusUnprocessableEntity, "success", transaction.FormatCampaignTransactions(transactions))
-	c.JSON(http.StatusUnprocessableEntity, response)
+	response := helper.ApiResponse("campaign detail transaction", http.StatusOK, "success", transaction.FormatCampaignTransactions(transactions))
+	c.JSON(http.StatusOK, response)
 }
 
 func (h *transactionHandler) GetUserTransactions(c *gin.Context) {
@@ -52,8 +52,8 @@ func (h *transactionHandler) GetUserTransactions(c *gin.Context) {
 		return
 	}
 
-	response := helper.ApiResponse("User's transactions", http.StatusUnprocessableEntity, "success", transaction.FormatUserTransactions(transactions))
-	c.JSON(http.StatusUnprocessableEntity, response)
+	response := helper.ApiResponse("User's transactions", http.StatusOK, "success", transaction.FormatUserTransactions(transactions))
+	c.JSON(http.StatusOK, response)
 
 }
 
