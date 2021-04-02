@@ -20,6 +20,12 @@ func main() {
 
 	//add image routing
 	router.Static("/images", "./images")
+	// load css, js, images and webfonts static files
+	router.Static("/css", "./web/assets/css")
+	router.Static("/js", "./web/assets/js")
+	router.Static("/webfonts", "./web/assets/webFonts")
+	router.Static("/image", "./web/assets/image")
+
 	//register user routes
 	routes.UserRoutes(router)
 	//load templates

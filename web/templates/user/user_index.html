@@ -1,3 +1,38 @@
 {{ define "content" }}
-Ini adalah halaman Index
+
+
+<h2 class="mb-4">
+    <a href="/users/new" class="btn btn-success">Create User</a>
+</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+       List Semua User
+    </div>
+
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Photo</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Occupation</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            {{range $index , $value := .users}}
+          <tr>
+            <th scope="row">{{ $index }}</th>
+            <td><img class="img-fluid img-thumbnail" src="{{ .AvatarFileName }}" width="60"></td>
+            <td>{{ .Name }}</td>
+            <td>{{ .Email }}</td>
+            <td>{{ .Occupation }}</td>
+            <td><a href="/users/edit/{{ .ID }}"><i class="fa fa-edit"></i></a></td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+</div>
 {{ end }}
