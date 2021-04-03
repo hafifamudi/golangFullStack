@@ -2,7 +2,7 @@
 
 
 <h2 class="mb-4">
-    <a href="/users/new" class="btn btn-success"><i class="fa fa-plus"></i> Create User</a>
+    <a href="/campaigns/new" class="btn btn-success"><i class="fa fa-plus"></i> Create Campaign</a>
 </h2>
 
 <div class="card mb-4">
@@ -16,19 +16,23 @@
             <th scope="col">No.</th>
             <th scope="col">Photo</th>
             <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Occupation</th>
+            <th scope="col">Short Desc</th>
+            <th scope="col">Goal Amount</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-            {{range $index , $value := .users}}
+            {{range $index , $value := .campaigns}}
           <tr>
             <th scope="row">{{ $index }}</th>
-            <td><img class="img-fluid img-thumbnail" src="{{ .AvatarFileName }}" width="60"></td>
+            <td>
+            {{if .CampaignImages}}
+               <img class="img-fluid img-thumbnail" src="/{{ (index .CampaignImages 0).FileName }}" width="60">
+            {{end}}
+            </td>
             <td>{{ .Name }}</td>
-            <td>{{ .Email }}</td>
-            <td>{{ .Occupation }}</td>
+            <td>{{ .ShortDescription }}</td>
+            <td>{{ .GoalAmoutFormatIDR }}</td>
             <td><a href="/users/edit/{{ .ID }}"><i class="fa fa-edit"></i></a>
             &nbsp;&nbsp;<a href="/users/avatar/{{ .ID }}"><i class="fa fa-camera"></i></a></td>
           </tr>

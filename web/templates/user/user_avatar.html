@@ -1,0 +1,13 @@
+{{ define "content"}}
+<div class="card mb-4">
+    <div class="card-body">
+        <form action="/users/avatar/{{ .ID }}" method="POST" enctype=multipart/form-data>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Photo</label>
+              <input type="file" class="form-control" name="avatar">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+    </div>
+</div>
+{{end}}

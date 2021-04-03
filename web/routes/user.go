@@ -19,5 +19,6 @@ func UserWebRoutes(route *gin.Engine) {
 	route.POST("/users", userWebHandler.Create)
 	route.GET("/users/edit/:id", userWebHandler.Edit)
 	route.POST("/users/update/:id", userWebHandler.Update)
-
+	route.GET("/users/avatar/:id", userWebHandler.NewAvatar)
+	route.POST("/users/avatar/:id", userWebHandler.UploadAvatar)
 }
