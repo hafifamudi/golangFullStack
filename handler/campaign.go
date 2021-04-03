@@ -59,7 +59,7 @@ func (h *campaignHandler) GetCampaign(c *gin.Context) {
 }
 
 func (h *campaignHandler) CreateCampaign(c *gin.Context) {
-	var input campaign.CraeteCampaignInput
+	var input campaign.CreateCampaignInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -96,7 +96,7 @@ func (h *campaignHandler) UpdateCampaign(c *gin.Context) {
 		return
 	}
 
-	var inputData campaign.CraeteCampaignInput
+	var inputData campaign.CreateCampaignInput
 
 	err = c.ShouldBindJSON(&inputData)
 	if err != nil {

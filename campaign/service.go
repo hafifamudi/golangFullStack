@@ -10,8 +10,8 @@ import (
 type Service interface {
 	GetCampaigns(userID int) ([]Campaign, error)
 	GetCampaignByID(input GetCampaignDetailInput) (Campaign, error)
-	CreateCampaign(input CraeteCampaignInput) (Campaign, error)
-	UpdateCampaign(campaignID GetCampaignDetailInput, inputData CraeteCampaignInput) (Campaign, error)
+	CreateCampaign(input CreateCampaignInput) (Campaign, error)
+	UpdateCampaign(campaignID GetCampaignDetailInput, inputData CreateCampaignInput) (Campaign, error)
 	SaveCampaignImage(input CreateCampaignImageInput, fileLocation string) (CampaignImage, error)
 }
 
@@ -51,7 +51,7 @@ func (s *service) GetCampaignByID(input GetCampaignDetailInput) (Campaign, error
 	return campaign, nil
 }
 
-func (s *service) CreateCampaign(input CraeteCampaignInput) (Campaign, error) {
+func (s *service) CreateCampaign(input CreateCampaignInput) (Campaign, error) {
 	campaign := Campaign{}
 	campaign.Name = input.Name
 	campaign.ShortDescription = input.ShortDescription
@@ -71,7 +71,7 @@ func (s *service) CreateCampaign(input CraeteCampaignInput) (Campaign, error) {
 	return newCampaign, nil
 }
 
-func (s *service) UpdateCampaign(campaignID GetCampaignDetailInput, inputData CraeteCampaignInput) (Campaign, error) {
+func (s *service) UpdateCampaign(campaignID GetCampaignDetailInput, inputData CreateCampaignInput) (Campaign, error) {
 	campaign, err := s.repository.FindByID(campaignID.ID)
 	if err != nil {
 		return campaign, err

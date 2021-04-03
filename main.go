@@ -38,6 +38,9 @@ func main() {
 	routesWeb.UserWebRoutes(router)
 	//register the campaign web route
 	routesWeb.CampaignWebRoutes(router)
+	//register the transaction web route
+	routesWeb.TransactionWebRoutes(router)
+
 	//run the app
 	router.Run(":5000")
 }

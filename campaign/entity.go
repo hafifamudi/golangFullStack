@@ -24,9 +24,14 @@ type Campaign struct {
 	User             user.User
 }
 
-func (c Campaign) GoalAmoutFormatIDR() string {
+func (c Campaign) GoalAmountFormatIDR() string {
 	ac := accounting.Accounting{Symbol: "Rp", Precision: 2, Thousand: ".", Decimal: ","}
 	return ac.FormatMoney(c.GoalAmount)
+}
+
+func (c Campaign) CurrentAmountFormatIDR() string {
+	ac := accounting.Accounting{Symbol: "Rp", Precision: 2, Thousand: ".", Decimal: ","}
+	return ac.FormatMoney(c.CurrentAmount)
 }
 
 type CampaignImage struct {

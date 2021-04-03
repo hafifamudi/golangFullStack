@@ -32,9 +32,11 @@
             </td>
             <td>{{ .Name }}</td>
             <td>{{ .ShortDescription }}</td>
-            <td>{{ .GoalAmoutFormatIDR }}</td>
-            <td><a href="/users/edit/{{ .ID }}"><i class="fa fa-edit"></i></a>
-            &nbsp;&nbsp;<a href="/users/avatar/{{ .ID }}"><i class="fa fa-camera"></i></a></td>
+            <td>{{ .GoalAmountFormatIDR }}</td>
+            <td>
+              <a href="/campaigns/show/{{ .ID }}"><i class="fa fa-search"></i></a>&nbsp;&nbsp;
+              <a href="/campaigns/edit/{{ .ID }}"><i class="fa fa-edit"></i></a>
+            &nbsp;&nbsp;<a href="/campaigns/image/{{ .ID }}"><i class="fa fa-camera"></i></a></td>
           </tr>
           {{end}}
         </tbody>
