@@ -3,6 +3,7 @@ package routes
 import (
 	"bwastartup/campaign"
 	"bwastartup/db"
+	"bwastartup/middleware"
 	"bwastartup/payment"
 	"bwastartup/transaction"
 	webHandler "bwastartup/web/handler"
@@ -23,5 +24,5 @@ func TransactionWebRoutes(route *gin.Engine) {
 	transactionService := transaction.NewService(transactionRepository, campaignRepository, paymentService)
 
 	TransactionWebHandler := webHandler.NewTransactionHandler(transactionService)
-	route.GET("/transactions", TransactionWebHandler.Index)
+	route.GET("/transactions", middleware.AuthAdminMiddleware(), TransactionWebHandler.Index)
 }

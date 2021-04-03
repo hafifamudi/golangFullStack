@@ -3,20 +3,32 @@ package main
 import (
 	"bwastartup/routes"
 	routesWeb "bwastartup/web/routes"
+	"log"
+	"os"
 	"path/filepath"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/multitemplate"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	//load the .env file
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 
 	//setup the router
 	router := gin.Default()
-
-	//using cors with gin middleware for handle the outgoing request
+	//set cookie
+	cookieStore := cookie.NewStore([]byte(os.Getenv("SECRET_KEY")))
+	//using cors, sessions with gin middleware for handle the outgoing request
 	router.Use(cors.Default())
+	router.Use(sessions.Sessions("samawaengineer", cookieStore))
 
 	//add image routing
 	router.Static("/images", "./images")

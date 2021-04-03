@@ -3,6 +3,7 @@ package routes
 import (
 	"bwastartup/campaign"
 	"bwastartup/db"
+	"bwastartup/middleware"
 	"bwastartup/user"
 	webHandler "bwastartup/web/handler"
 
@@ -18,12 +19,12 @@ func CampaignWebRoutes(route *gin.Engine) {
 	userService := user.NewService(userRepository)
 
 	CampaignWebHandler := webHandler.NewCampaignHandler(campaignService, userService)
-	route.GET("/campaigns", CampaignWebHandler.Index)
-	route.GET("/campaigns/new", CampaignWebHandler.New)
-	route.POST("/campaigns", CampaignWebHandler.Create)
-	route.GET("/campaigns/image/:id", CampaignWebHandler.NewImage)
-	route.POST("/campaigns/image/:id", CampaignWebHandler.CreateImage)
-	route.GET("/campaigns/edit/:id", CampaignWebHandler.Edit)
-	route.POST("/campaigns/update/:id", CampaignWebHandler.Update)
-	route.GET("/campaigns/show/:id", CampaignWebHandler.Show)
+	route.GET("/campaigns", middleware.AuthAdminMiddleware(), CampaignWebHandler.Index)
+	route.GET("/campaigns/new", middleware.AuthAdminMiddleware(), CampaignWebHandler.New)
+	route.POST("/campaigns", middleware.AuthAdminMiddleware(), CampaignWebHandler.Create)
+	route.GET("/campaigns/image/:id", middleware.AuthAdminMiddleware(), CampaignWebHandler.NewImage)
+	route.POST("/campaigns/image/:id", middleware.AuthAdminMiddleware(), CampaignWebHandler.CreateImage)
+	route.GET("/campaigns/edit/:id", middleware.AuthAdminMiddleware(), CampaignWebHandler.Edit)
+	route.POST("/campaigns/update/:id", middleware.AuthAdminMiddleware(), CampaignWebHandler.Update)
+	route.GET("/campaigns/show/:id", middleware.AuthAdminMiddleware(), CampaignWebHandler.Show)
 }
